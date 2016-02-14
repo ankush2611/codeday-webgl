@@ -4,15 +4,17 @@
   var geometry, material, mesh;
   var havePointerLock = checkForPointerLock();
   var controls, controlsEnabled;
+
   var moveForward,
       moveBackward,
       moveLeft,
       moveRight,
       canJump;
+
   var velocity = new THREE.Vector3();
   var footStepSfx = new Audio('/sfx/footstep.wav');
   var ambienceSfx = new Audio('/sfx/ambience.wav');
-  var hemisphereLight; 
+  var hemisphereLight, spotLight, spotLight2, spotLight3, spotLight4; 
 
   ambienceSfx.preload = 'auto';
   ambienceSfx.loop = true;
@@ -31,12 +33,14 @@
     clock = new THREE.Clock();
 
     //Let there be light 
-    hemisphereLight = new THREE.HemisphereLight(0xFFFFFF, .5 ); 
+    hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 0.2); 
     hemisphereLight.position.set(0, 10, 0); 
+    spotLight = new THREE.SpotLight(0xffffff, 1, 200, 20, 10); 
+    spotLight.position.set (0, 50, 235); 
 
     scene = new THREE.Scene();    //scene.fog = new THREE.Fog(0xb2e1f2, 0, 750);
 
-    camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.y = 10;
     camera.position.x = 50; 
 
@@ -44,7 +48,7 @@
     scene.add(controls.getObject());
 
     // Cube
-    var plane, plane2, plane3, plane4; 
+    var plane, plane2, plane3, plane4, ceiling; 
     var cube = new THREE.BoxGeometry(100, 10, 10); 
 
     var imgMaterial = new THREE.MeshLambertMaterial({
@@ -56,6 +60,7 @@
     plane2 = new THREE.PlaneGeometry(500, 200); 
     plane3 = new THREE.PlaneGeometry(500, 200); 
     plane4 = new THREE.PlaneGeometry(500, 200); 
+    ceiling = new THREE.PlaneGeometry(500, 500); 
 
     
     painting1 = THREE.ImageUtils.loadTexture('images/mystical.png');
@@ -75,11 +80,18 @@
     
     plane4.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI / 2)); 
     plane4.applyMatrix(new THREE.Matrix4().makeTranslation(-250, 100, 0));
+     
+
+    ceiling.applyMatrix(new THREE.Matrix4().makeRotationX( -Math.PI/2));
+    ceiling.applyMatrix(new THREE.Matrix4().makeRotationZ(-Math.PI)); 
+    ceiling.applyMatrix(new THREE.Matrix4().makeTranslation(0, 200, 0)); 
+
      var meshImage1 = new THREE.Mesh(imagePlane1, imgMaterial);
      var mesh = new THREE.Mesh(plane, material); 
      var mesh2 = new THREE.Mesh(plane2, material); 
      var mesh3 = new THREE.Mesh(plane3, material2); 
      var mesh4 = new THREE.Mesh(plane4, material);
+     var meshCeiling = new THREE.Mesh(ceiling, material); 
      var cubeMesh = new THREE.Mesh(cube, material2); 
 
     mesh.material.side = THREE.DoubleSide;
@@ -92,8 +104,9 @@
     scene.add(mesh2);
     scene.add(mesh3);
     scene.add(mesh4); 
+    scene.add(meshCeiling);
     scene.add(cubeMesh)
-    scene.add( hemisphereLight );
+    scene.add(hemisphereLight);
     // floor
    scene.add(createFloor());
 
@@ -113,10 +126,12 @@
   function createFloor() {
     geometry = new THREE.PlaneGeometry(500, 500, 5, 5);
     geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
-    var texture = THREE.ImageUtils.loadTexture('textures/desert.jpg');
+
+/*    var texture = THREE.ImageUtils.loadTexture('textures/floor.jpg');
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(64, 64);
-    material = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texture });
+    texture.repeat.set(64, 64);*/
+
+    material = new THREE.MeshLambertMaterial({ color: 0xffffff });
     return new THREE.Mesh(geometry, material);
   }
 
@@ -284,7 +299,13 @@ loader.load(
       }
 
       //Collisions 
-      
+      if (controls.getObject().position.x >= 240) {
+        velocity.x = 0; 
+        controls.getObject().position.x = 240;
+      } else if (controls.getObject().position.x <= -240) {
+        velocity.x = 0; 
+        controls.getObject().position.x = -240; 
+      }
     }
   }
 })();
