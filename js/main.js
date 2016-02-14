@@ -1,6 +1,11 @@
+
+var query = window.location.search.substr(3); 
+
 (function() { 
-  const MAX_PICS = 5;
+  const MAX_PICS = 16;
   var pictures = [], widths = [], heights = [], titles = [];
+  pictures.push("https://www.hallaminternet.com/assets/URL-tagging-image.png"); 
+
   var link, description, width, widthEnd, height, heightEnd;
   $("#search").click(function(){
       $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
@@ -55,7 +60,7 @@
   init();
   animate();
 
-  function init() {
+function init() {
     initControls();
     initPointerLock();
 
@@ -65,12 +70,6 @@
 
     clock = new THREE.Clock();
 
-
-    //Let there be light 
-    hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 0.2); 
-    hemisphereLight.position.set(0, 10, 0); 
-    spotLight = new THREE.SpotLight(0xffffff, 1, 200, 20, 10); 
-    spotLight.position.set (0, 50, 235); 
 
     scene = new THREE.Scene();    //scene.fog = new THREE.Fog(0xb2e1f2, 0, 750);
 
@@ -90,16 +89,19 @@
     plane3 = new THREE.PlaneGeometry(500, 200); 
     plane4 = new THREE.PlaneGeometry(500, 200); 
     ceiling = new THREE.PlaneGeometry(500, 500); 
-
-    
     
 
     var material = new THREE.MeshLambertMaterial({
        color : 0x33ff55
-     })
+     }); 
     var material2 = new THREE.MeshLambertMaterial({
       color : 0x00aa33
-    })
+    }); 
+
+    var imgMaterialSpace = new THREE.MeshLambertMaterial({
+      map:THREE.ImageUtils.loadTexture('images/space.jpg')
+    }); 
+
 //**88888888888888888888888888888888888888888888888888888888888888888888888888888*// 
 
 
@@ -108,9 +110,9 @@
     });
 
 for (var k = 0; k < 4; k++) {
-      for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 4; i++) {
         var imagePlane1 = new THREE.PlaneGeometry(512/10, 512/10);
-        var imgMaterial = new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture('images/ocean.jpg')});
+        var imgMaterial = new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture( pictures[k*4+i] )});
         
         if (k == 0) {
           imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation((100*i) - 150, 40, -245));
@@ -130,7 +132,9 @@ for (var k = 0; k < 4; k++) {
       }
   }
 
+
 //*8888888888888888888888888888888888888888888888888888888888888888888888888888888888*// 
+
     plane.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, 250)); 
 
     plane2.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, -250));
@@ -150,7 +154,7 @@ for (var k = 0; k < 4; k++) {
      var mesh2 = new THREE.Mesh(plane2, material); 
      var mesh3 = new THREE.Mesh(plane3, material2); 
      var mesh4 = new THREE.Mesh(plane4, material);
-     var meshCeiling = new THREE.Mesh(ceiling, material); 
+     var meshCeiling = new THREE.Mesh(ceiling, imgMaterialSpace); 
      var cubeMesh = new THREE.Mesh(cube, material2); 
 
     mesh.material.side = THREE.DoubleSide;
@@ -158,17 +162,30 @@ for (var k = 0; k < 4; k++) {
     mesh3.material.side = THREE.DoubleSide; 
     mesh4.material.side = THREE.DoubleSide; 
 
+
+
+    //!!!!!!!!!!!!!!!!!@#$%&*$#@!$*&( LIGHTS )
+    hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 1); 
+    hemisphereLight.position.set(0, 150, 0); 
+    var bluePoint = new THREE.PointLight(0x0033ff, 100, 150); 
+    bluePoint.position.set(70, 5, 70); 
+    scene.add(bluePoint); 
+    scene.add(new THREE.PointLightHelper(bluePoint, 3)); 
+
+
     
     scene.add(mesh);
     scene.add(mesh2);
     scene.add(mesh3);
     scene.add(mesh4); 
     scene.add(meshCeiling);
-    scene.add(cubeMesh)
+
+    //lights
     scene.add(hemisphereLight);
 
     // floor
-   scene.add(createFloor());
+     scene.add(createFloor());
+
 
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -182,17 +199,15 @@ for (var k = 0; k < 4; k++) {
     renderer.render(scene, camera);
   }
 
-  function createFloor() {
-    geometry = new THREE.PlaneGeometry(500, 500, 5, 5);
-    geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
-
-   var texture = THREE.ImageUtils.loadTexture('textures/floor.jpg');
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(64, 64);
-
-    material = new THREE.MeshLambertMaterial({ color: 0xffffff });
-    return new THREE.Mesh(geometry, material);
-  }
+function createFloor() {
+  geometry = new THREE.PlaneGeometry(2000, 2000, 5, 5);
+  geometry.applyMatrix(new THREE.Matrix4().makeRotationX(- Math.PI/2));
+  var texture = THREE.ImageUtils.loadTexture('textures/crate.gif ');
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(64, 64);
+  material = new THREE.MeshLambertMaterial({ color: 0xffffff, map: texture });
+  return new THREE.Mesh(geometry, material);
+}
 
   function checkForPointerLock() {
     return 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
@@ -290,7 +305,7 @@ for (var k = 0; k < 4; k++) {
   function updateControls() {
     if (controlsEnabled) {
       var delta = clock.getDelta();
-      var walkingSpeed = 1000.0;
+      var walkingSpeed = 400.0;
 
       velocity.x -= velocity.x * 10.0 * delta;
       velocity.z -= velocity.z * 10.0 * delta;
