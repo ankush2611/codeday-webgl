@@ -1,0 +1,26 @@
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<input id="searchterm" />
+<button id="search">search</button>
+<div id="results"></div>
+<script>  
+    const MAX_PICS = 5;
+    var pictures = [];
+    var link;
+    $("#search").click(function(){
+        $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+        {
+            tags: $("#searchterm").val(),
+            format: "json",
+        },
+        function(data) {
+            $.each(data.items, function(i,item){
+                link = item.media['m'];
+                //console.log(link);
+                pictures.push(link);
+                $("<img/>").attr("src", link).prependTo("#results");
+                if (i == MAX_PICS - 1) return false;
+            });
+            //console.log(pictures);
+        });
+    });
+</script>
