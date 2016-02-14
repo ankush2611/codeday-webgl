@@ -1,0 +1,76 @@
+			// objects
+				
+				
+				// WALL NUMBER ONE
+			
+				var x = 0; // wall thickness
+				var y = 200; // height
+				var z = 100; // width
+				geometry = new THREE.BoxGeometry( x, y, z );
+
+				var posx = 100;
+				var posy = 0;
+				var posz = 100;
+
+					material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.position.x =  posx;
+					mesh.position.y = posy;
+					mesh.position.z = posz;
+					scene.add( mesh );
+
+					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+					
+
+					objects.push( mesh );
+					
+					
+						// WALL NUMBER TWO
+			
+				var x = 0; // wall thickness
+				var y = 200; // height
+				var z = 100; // width
+				geometry = new THREE.BoxGeometry( x, y, z );
+
+				var posx = 100;
+				var posy = 0;
+				var posz = 100;
+
+					material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.position.x =  posx+200;
+					mesh.position.y = posy;
+					mesh.position.z = posz;
+					scene.add( mesh );
+
+					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+					
+
+					objects.push( mesh );
+					
+					
+					// WALL NUMBER THREE
+					
+					geometry = new THREE.BoxGeometry( z, y, x );
+					
+									var posx = 100;
+				var posy = 0;
+				var posz = 100;
+
+				material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.position.x =  posx+100;
+					mesh.position.y = posy+100;
+					mesh.position.z = posz+100;
+					scene.add( mesh );
+
+					material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+					
+
+					objects.push( mesh );
+
+	
+				//
