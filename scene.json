@@ -1,0 +1,87 @@
+{
+	"metadata": {
+		"version": 4.4,
+		"type": "Object",
+		"generator": "Object3D.toJSON"
+	},
+	"geometries": [
+		{
+			"uuid": "955CFA94-F158-4B5D-ADDF-45F2BC32402C",
+			"type": "PlaneGeometry",
+			"width": 2,
+			"height": 2
+		},
+		{
+			"uuid": "BEA4B850-B7C0-42CE-8864-350B230A8E88",
+			"type": "BoxGeometry",
+			"width": 1,
+			"height": 1,
+			"depth": 1
+		},
+		{
+			"uuid": "6810F000-64CD-42D4-BE68-C1FE82094A82",
+			"type": "PlaneGeometry",
+			"width": 2,
+			"height": 2
+		}],
+	"materials": [
+		{
+			"uuid": "143B6885-2CB0-4F7B-AE3C-36371C606EC2",
+			"type": "MeshStandardMaterial",
+			"color": 16777215,
+			"emissive": 0
+		},
+		{
+			"uuid": "B0285805-8080-4726-969B-0151390E943C",
+			"type": "MeshStandardMaterial",
+			"color": 16777215,
+			"emissive": 0
+		},
+		{
+			"uuid": "7E070E72-0AF0-41CC-AF77-F60DF41BE286",
+			"type": "MeshStandardMaterial",
+			"color": 16777215,
+			"emissive": 0
+		}],
+	"object": {
+		"uuid": "CA86DBDE-32C1-43B3-BD9A-06212D9857E5",
+		"type": "Scene",
+		"name": "Scene",
+		"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+		"children": [
+			{
+				"uuid": "32A3F652-6437-4032-9998-37DFD87518A1",
+				"type": "Mesh",
+				"name": "Plane 1",
+				"matrix": [1.3466309309005737,0,0,0,0,-0.03494393825531006,-2.8204216957092285,0,0,1.0343811511993408,-0.012815583497285843,0,-0.02269209362566471,4.165010929107666,-0.14516837894916534,1],
+				"geometry": "955CFA94-F158-4B5D-ADDF-45F2BC32402C",
+				"material": "143B6885-2CB0-4F7B-AE3C-36371C606EC2"
+			},
+			{
+				"uuid": "5B81299A-16DB-4AF6-8CD9-9B0389844E92",
+				"type": "Mesh",
+				"name": "Box 2",
+				"matrix": [6.8679118156433105,0,0,0,0,6.8679118156433105,0,0,0,0,6.8679118156433105,0,13.808931350708008,3.7640087604522705,9.775914192199707,1],
+				"geometry": "BEA4B850-B7C0-42CE-8864-350B230A8E88",
+				"material": "B0285805-8080-4726-969B-0151390E943C"
+			},
+			{
+				"uuid": "9D6CD7B0-FF41-4E6F-8A8E-6B718556557B",
+				"type": "PointLight",
+				"name": "PointLight 1",
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-5.6561174392700195,2.7718799114227295,-4.736971378326416,1],
+				"color": 16777215,
+				"intensity": 1,
+				"distance": 0,
+				"decay": 1
+			},
+			{
+				"uuid": "66FA84CA-E415-4926-8553-41F15B7EFF69",
+				"type": "Mesh",
+				"name": "Plane 3",
+				"matrix": [15.079999923706055,0,0,0,0,0.7656792402267456,-15.060548782348633,0,0,15.060548782348633,0.7656792402267456,0,0,0,0,1],
+				"geometry": "6810F000-64CD-42D4-BE68-C1FE82094A82",
+				"material": "7E070E72-0AF0-41CC-AF77-F60DF41BE286"
+			}]
+	}
+}
