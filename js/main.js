@@ -1,42 +1,56 @@
 
 var query = window.location.search.substr(3); 
-
-(function() { 
-  const MAX_PICS = 16;
+const MAX_PICS = 16;
   var pictures = [], widths = [], heights = [], titles = [];
-  pictures.push("https://www.hallaminternet.com/assets/URL-tagging-image.png"); 
+  pictures.push("images/1.jpg");
+  pictures.push("images/2.jpg");
+  pictures.push("images/3.jpg");
+  pictures.push("images/4.jpg");
+  pictures.push("images/5.jpg");
+  pictures.push("images/6.jpg");
+  pictures.push("images/7.jpg");
+  pictures.push("images/8.jpg");
+  pictures.push("images/9.jpg");
+  pictures.push("images/10.jpg");
+  pictures.push("images/11.jpg");
+  pictures.push("images/12.jpg");
+  pictures.push("images/13.jpg");
+  pictures.push("images/14.jpg");
+  pictures.push("images/15.jpg");
+  pictures.push("images/16.jpg");
 
-  var link, description, width, widthEnd, height, heightEnd;
-  $("#search").click(function(){
-      $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
-      {
-          tags: $("#searchterm").val(),
-          format: "json",
-      },
-      function(data) {
-          $.each(data.items, function(i,item){
-              link = item.media['m'];
-              console.log(item);
-              description = item.description;
-              width = description.indexOf('width') + 7;
-              widthEnd = description.indexOf('"', width);  
-              //console.log(description.substr(width, widthEnd-width));
+
+
+  // var link, description, width, widthEnd, height, heightEnd;
+
+  //     $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+  //         tags: query.val(),
+  //         format: "json",
+  //     },
+  //     function(data) {
+  //         $.each(data.items, function(i,item){
+  //             link = item.media['m'];
+  //             console.log(item);
+  //             description = item.description;
+  //             width = description.indexOf('width') + 7;
+  //             widthEnd = description.indexOf('"', width);  
+  //             //console.log(description.substr(width, widthEnd-width));
             
-              height = description.indexOf('height') + 8;
-              heightEnd = description.indexOf('"', height);  
-              //console.log(description.substr(height, heightEnd-height));
+  //             height = description.indexOf('height') + 8;
+  //             heightEnd = description.indexOf('"', height);  
+  //             //console.log(description.substr(height, heightEnd-height));
             
               
-              pictures.push(link);
-              widths.push(description.substr(width, widthEnd-width));
-              heights.push(description.substr(height, heightEnd-height));
-              titles.push(item.title);
-              //$("<img/>").attr("src", link).prependTo("#results");
-              if (i == MAX_PICS - 1) return false;
-          });
-          //console.log(pictures);
-      });
-  });
+  //             pictures.push(link);
+  //             widths.push(description.substr(width, widthEnd-width));
+  //             heights.push(description.substr(height, heightEnd-height));
+  //             titles.push(item.title);
+  //             //$("<img/>").attr("src", link).prependTo("#results");
+  //             if (i == MAX_PICS - 1) return false;
+        
+  //         //console.log(pictures);
+  //     });
+  // });
 
   var clock;
   var scene, camera, renderer;
@@ -74,7 +88,7 @@ function init() {
     scene = new THREE.Scene();    //scene.fog = new THREE.Fog(0xb2e1f2, 0, 750);
 
     camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.y = 10;
+    camera.position.y = 30;
     camera.position.x = 50; 
 
     controls = new THREE.PointerLockControls(camera);
@@ -98,6 +112,10 @@ function init() {
       color : 0x00aa33
     }); 
 
+    var material3 = new THREE.MeshLambertMaterial({
+      color : 0xaaff22
+    });
+
     var imgMaterialSpace = new THREE.MeshLambertMaterial({
       map:THREE.ImageUtils.loadTexture('images/space.jpg')
     }); 
@@ -112,7 +130,8 @@ function init() {
 for (var k = 0; k < 4; k++) {
         for (var i = 0; i < 4; i++) {
         var imagePlane1 = new THREE.PlaneGeometry(512/10, 512/10);
-        var imgMaterial = new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture( pictures[k*4+i] )});
+
+        var imgMaterial = new THREE.MeshBasicMaterial({map:THREE.ImageUtils.loadTexture(pictures[(k*4) + i])});
         
         if (k == 0) {
           imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation((100*i) - 150, 40, -245));
@@ -153,7 +172,7 @@ for (var k = 0; k < 4; k++) {
      var mesh = new THREE.Mesh(plane, material); 
      var mesh2 = new THREE.Mesh(plane2, material); 
      var mesh3 = new THREE.Mesh(plane3, material2); 
-     var mesh4 = new THREE.Mesh(plane4, material);
+     var mesh4 = new THREE.Mesh(plane4, material3);
      var meshCeiling = new THREE.Mesh(ceiling, imgMaterialSpace); 
      var cubeMesh = new THREE.Mesh(cube, material2); 
 
@@ -165,12 +184,9 @@ for (var k = 0; k < 4; k++) {
 
 
     //!!!!!!!!!!!!!!!!!@#$%&*$#@!$*&( LIGHTS )
-    hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 1); 
-    hemisphereLight.position.set(0, 150, 0); 
-    var bluePoint = new THREE.PointLight(0x0033ff, 100, 150); 
-    bluePoint.position.set(70, 5, 70); 
-    scene.add(bluePoint); 
-    scene.add(new THREE.PointLightHelper(bluePoint, 3)); 
+    hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 0.5); 
+    hemisphereLight.position.set(0, 150, 0);   
+
 
 
     
@@ -200,7 +216,7 @@ for (var k = 0; k < 4; k++) {
   }
 
 function createFloor() {
-  geometry = new THREE.PlaneGeometry(2000, 2000, 5, 5);
+  geometry = new THREE.PlaneGeometry(500, 500, 5, 5);
   geometry.applyMatrix(new THREE.Matrix4().makeRotationX(- Math.PI/2));
   var texture = THREE.ImageUtils.loadTexture('textures/crate.gif ');
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -208,6 +224,8 @@ function createFloor() {
   material = new THREE.MeshLambertMaterial({ color: 0xffffff, map: texture });
   return new THREE.Mesh(geometry, material);
 }
+
+
 
   function checkForPointerLock() {
     return 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
@@ -341,4 +359,4 @@ function createFloor() {
       }
     }
   }
-})();
+
