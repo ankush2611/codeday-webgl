@@ -32,12 +32,6 @@
 
     clock = new THREE.Clock();
 
-    //Let there be light 
-    hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 0.2); 
-    hemisphereLight.position.set(0, 10, 0); 
-    spotLight = new THREE.SpotLight(0xffffff, 1, 200, 20, 10); 
-    spotLight.position.set (0, 50, 235); 
-
     scene = new THREE.Scene();    //scene.fog = new THREE.Fog(0xb2e1f2, 0, 750);
 
     camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 10000);
@@ -89,13 +83,27 @@
     mesh3.material.side = THREE.DoubleSide; 
     mesh4.material.side = THREE.DoubleSide; 
 
+    //Let there be light 
+    hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 0.2); 
+    hemisphereLight.position.set(0, 10, 0); 
+    spotLight = new THREE.SpotLight(0xffffff, 10, 200, 10, 6); 
+    spotLight.position.set (0, 100, 230); 
+    var spotTarget = new THREE.Object3D(); 
+    spotTarget.position.set(0, 100, 250); 
+    spotLight.target = spotTarget; 
+    scene.add(spotTarget); 
+
     scene.add(mesh);
     scene.add(mesh2);
     scene.add(mesh3);
     scene.add(mesh4); 
     scene.add(meshCeiling);
     scene.add(cubeMesh)
+    
+    //Light the scene
     scene.add(hemisphereLight);
+    scene.add(spotLight);
+    scene.add(new THREE.PointLightHelper(spotLight, 1)); 
     // floor
    scene.add(createFloor());
 
@@ -105,7 +113,6 @@
     document.body.appendChild(renderer.domElement);
   }
 
-  var counter; 
   function animate() {
     requestAnimationFrame(animate);
     updateControls();
@@ -116,7 +123,7 @@
     geometry = new THREE.PlaneGeometry(500, 500, 5, 5);
     geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
 
-/*    var texture = THREE.ImageUtils.loadTexture('textures/floor.jpg');
+/*  var texture = THREE.ImageUtils.loadTexture('textures/floor.jpg');
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(64, 64);*/
 
@@ -257,3 +264,6 @@
     }
   }
 })();
+
+
+
