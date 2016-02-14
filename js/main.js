@@ -47,18 +47,26 @@
     var plane, plane2, plane3, plane4; 
     var cube = new THREE.BoxGeometry(100, 10, 10); 
 
+    var imgMaterial = new THREE.MeshLambertMaterial({
+      map:THREE.ImageUtils.loadTexture('images/ocean.jpg')
+    });
+    
+    var imagePlane1 = new THREE.PlaneGeometry(512/10, 512/10);
     plane = new THREE.PlaneGeometry(500, 200); 
     plane2 = new THREE.PlaneGeometry(500, 200); 
     plane3 = new THREE.PlaneGeometry(500, 200); 
     plane4 = new THREE.PlaneGeometry(500, 200); 
 
+    
+    painting1 = THREE.ImageUtils.loadTexture('images/mystical.png');
     var material = new THREE.MeshLambertMaterial({
        color : 0x33ff55
      })
     var material2 = new THREE.MeshLambertMaterial({
-      color : 0x00aa33 
+      color : 0x00aa33
     })
 
+    imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation(-50, 40, -245));
     plane.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, 250)); 
     plane2.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, -250));
 
@@ -67,6 +75,7 @@
     
     plane4.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI / 2)); 
     plane4.applyMatrix(new THREE.Matrix4().makeTranslation(-250, 100, 0));
+     var meshImage1 = new THREE.Mesh(imagePlane1, imgMaterial);
      var mesh = new THREE.Mesh(plane, material); 
      var mesh2 = new THREE.Mesh(plane2, material); 
      var mesh3 = new THREE.Mesh(plane3, material2); 
@@ -78,6 +87,7 @@
     mesh3.material.side = THREE.DoubleSide; 
     mesh4.material.side = THREE.DoubleSide; 
 
+    scene.add(meshImage1);
     scene.add(mesh);
     scene.add(mesh2);
     scene.add(mesh3);
@@ -197,6 +207,47 @@
     }
   }
 
+  
+  
+//code for inserting 3d object
+/*  //loader = new THREE.JSONLoader();
+				//logo=function(Object){
+				//}
+				
+				
+  var manager = new THREE.LoadingManager();
+  manager.onProgress = function ( item, loaded, total ) {	
+
+  console.log( item, loaded, total );
+
+  };
+					
+				
+// THIS IS IMPORTANT @@@@@@@@@@@@@@@@@@@@@@@@
+
+
+//var loader = new THREE.OBJLoader( manager );
+//loader.load( 'untitled.obj', function ( object ) {
+
+	//
+	
+	// instantiate a loader
+var loader = new THREE.OBJLoader();
+
+// load a resource
+loader.load(
+	// resource URL
+	'objects/male.obj',
+	// Function when resource is loaded
+	function ( object ) {
+		scene.add( object );
+	}
+);*/
+  
+  
+  
+  
+  
   function initControls() {
     document.addEventListener('keydown', onKeyDown, false);
     document.addEventListener('keyup', onKeyUp, false);

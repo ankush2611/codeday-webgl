@@ -15,7 +15,7 @@
         function(data) {
             $.each(data.items, function(i,item){
                 link = item.media['m'];
-                //console.log(link);
+                console.log(item);
                 pictures.push(link);
                 $("<img/>").attr("src", link).prependTo("#results");
                 if (i == MAX_PICS - 1) return false;
