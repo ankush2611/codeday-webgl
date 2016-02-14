@@ -51,11 +51,6 @@
     var plane, plane2, plane3, plane4, ceiling; 
     var cube = new THREE.BoxGeometry(100, 10, 10); 
 
-    var imgMaterial = new THREE.MeshLambertMaterial({
-      map:THREE.ImageUtils.loadTexture('images/ocean.jpg')
-    });
-    
-    var imagePlane1 = new THREE.PlaneGeometry(512/10, 512/10);
     plane = new THREE.PlaneGeometry(500, 200); 
     plane2 = new THREE.PlaneGeometry(500, 200); 
     plane3 = new THREE.PlaneGeometry(500, 200); 
@@ -63,16 +58,45 @@
     ceiling = new THREE.PlaneGeometry(500, 500); 
 
     
-     var imgMaterial = new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture('images/ocean.jpg')});
     
+
     var material = new THREE.MeshLambertMaterial({
        color : 0x33ff55
      })
     var material2 = new THREE.MeshLambertMaterial({
       color : 0x00aa33
     })
+//**88888888888888888888888888888888888888888888888888888888888888888888888888888*// 
 
-    imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation(-50, 40, -245));
+
+    var imgMaterial = new THREE.MeshLambertMaterial({
+     map:THREE.ImageUtils.loadTexture('images/ocean.jpg')
+    });
+
+for (var k = 0; k < 4; k++) {
+      for (var i = 0; i < 4; i++) {
+        var imagePlane1 = new THREE.PlaneGeometry(512/10, 512/10);
+        var imgMaterial = new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture('images/ocean.jpg')});
+        
+        if (k == 0) {
+          imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation((100*i) - 150, 40, -245));
+        } else if (k == 1) {
+          imagePlane1.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI));
+          imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation((100*i) - 150, 40, 245));
+        } else if (k == 2) {
+          imagePlane1.applyMatrix(new THREE.Matrix4().makeRotationY(-Math.PI/2)); 
+          imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation(245, 40, (100*i) - 150));
+        } else if (k == 3) {
+          imagePlane1.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI/2)); 
+          imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation(-245, 40, (100*i) - 150));
+        }
+
+        var meshImage1 = new THREE.Mesh(imagePlane1, imgMaterial);
+        scene.add(meshImage1);
+      }
+  }
+
+//*8888888888888888888888888888888888888888888888888888888888888888888888888888888888*// 
     plane.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, 250)); 
 
     plane2.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, -250));
@@ -87,7 +111,7 @@
     ceiling.applyMatrix(new THREE.Matrix4().makeRotationZ(-Math.PI));
     ceiling.applyMatrix(new THREE.Matrix4().makeTranslation(0, 200, 0));
 
-     var meshImage1 = new THREE.Mesh(imagePlane1, imgMaterial);
+     
      var mesh = new THREE.Mesh(plane, material); 
      var mesh2 = new THREE.Mesh(plane2, material); 
      var mesh3 = new THREE.Mesh(plane3, material2); 
@@ -100,7 +124,7 @@
     mesh3.material.side = THREE.DoubleSide; 
     mesh4.material.side = THREE.DoubleSide; 
 
-    scene.add(meshImage1);
+    
     scene.add(mesh);
     scene.add(mesh2);
     scene.add(mesh3);
@@ -108,6 +132,7 @@
     scene.add(meshCeiling);
     scene.add(cubeMesh)
     scene.add(hemisphereLight);
+
     // floor
    scene.add(createFloor());
 
@@ -117,7 +142,6 @@
     document.body.appendChild(renderer.domElement);
   }
 
-  var counter; 
   function animate() {
     requestAnimationFrame(animate);
     updateControls();
@@ -128,9 +152,9 @@
     geometry = new THREE.PlaneGeometry(500, 500, 5, 5);
     geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
 
-/*    var texture = THREE.ImageUtils.loadTexture('textures/floor.jpg');
+   var texture = THREE.ImageUtils.loadTexture('textures/floor.jpg');
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(64, 64);*/
+    texture.repeat.set(64, 64);
 
     material = new THREE.MeshLambertMaterial({ color: 0xffffff });
     return new THREE.Mesh(geometry, material);
