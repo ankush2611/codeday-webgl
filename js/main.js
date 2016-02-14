@@ -1,4 +1,38 @@
-(function() {
+(function() { 
+  const MAX_PICS = 5;
+  var pictures = [], widths = [], heights = [], titles = [];
+  var link, description, width, widthEnd, height, heightEnd;
+  $("#search").click(function(){
+      $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+      {
+          tags: $("#searchterm").val(),
+          format: "json",
+      },
+      function(data) {
+          $.each(data.items, function(i,item){
+              link = item.media['m'];
+              console.log(item);
+              description = item.description;
+              width = description.indexOf('width') + 7;
+              widthEnd = description.indexOf('"', width);  
+              //console.log(description.substr(width, widthEnd-width));
+            
+              height = description.indexOf('height') + 8;
+              heightEnd = description.indexOf('"', height);  
+              //console.log(description.substr(height, heightEnd-height));
+            
+              
+              pictures.push(link);
+              widths.push(description.substr(width, widthEnd-width));
+              heights.push(description.substr(height, heightEnd-height));
+              titles.push(item.title);
+              //$("<img/>").attr("src", link).prependTo("#results");
+              if (i == MAX_PICS - 1) return false;
+          });
+          //console.log(pictures);
+      });
+  });
+
   var clock;
   var scene, camera, renderer;
   var geometry, material, mesh;
