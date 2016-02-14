@@ -13,11 +13,7 @@
   var velocity = new THREE.Vector3();
   var footStepSfx = new Audio('/sfx/footstep.wav');
   var ambienceSfx = new Audio('/sfx/ambience.wav');
-<<<<<<< HEAD
-  var hemisphereLight; 
-=======
   var hemisphereLight, spotLight, spotLight2, spotLight3, spotLight4; 
->>>>>>> f3022df53c633ff3747f42421bbddb8454b05cc5
 
   ambienceSfx.preload = 'auto';
   ambienceSfx.loop = true;
@@ -35,17 +31,12 @@
 
     clock = new THREE.Clock();
 
-<<<<<<< HEAD
-    //Let there be light
-    hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 0.2);
-    hemisphereLight.position.set(0, 10, 0);
-=======
+
     //Let there be light 
     hemisphereLight = new THREE.HemisphereLight(0xffe5bb, 0xFFBF00, 0.2); 
     hemisphereLight.position.set(0, 10, 0); 
     spotLight = new THREE.SpotLight(0xffffff, 1, 200, 20, 10); 
     spotLight.position.set (0, 50, 235); 
->>>>>>> f3022df53c633ff3747f42421bbddb8454b05cc5
 
     scene = new THREE.Scene();    //scene.fog = new THREE.Fog(0xb2e1f2, 0, 750);
 
@@ -57,17 +48,6 @@
     scene.add(controls.getObject());
 
     // Cube
-<<<<<<< HEAD
-    var plane, plane2, plane3, plane4, ceiling;
-    var cube = new THREE.BoxGeometry(100, 10, 10);
-
-    plane = new THREE.PlaneGeometry(500, 200);
-    plane2 = new THREE.PlaneGeometry(500, 200);
-    plane3 = new THREE.PlaneGeometry(500, 200);
-    plane4 = new THREE.PlaneGeometry(500, 200);
-    ceiling = new THREE.PlaneGeometry(500, 500);
-
-=======
     var plane, plane2, plane3, plane4, ceiling; 
     var cube = new THREE.BoxGeometry(100, 10, 10); 
 
@@ -83,8 +63,8 @@
     ceiling = new THREE.PlaneGeometry(500, 500); 
 
     
-    painting1 = THREE.ImageUtils.loadTexture('images/mystical.png');
->>>>>>> f3022df53c633ff3747f42421bbddb8454b05cc5
+     var imgMaterial = new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture('images/ocean.jpg')});
+    
     var material = new THREE.MeshLambertMaterial({
        color : 0x33ff55
      })
@@ -92,12 +72,9 @@
       color : 0x00aa33
     })
 
-<<<<<<< HEAD
-    plane.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, 250));
-=======
     imagePlane1.applyMatrix(new THREE.Matrix4().makeTranslation(-50, 40, -245));
     plane.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, 250)); 
->>>>>>> f3022df53c633ff3747f42421bbddb8454b05cc5
+
     plane2.applyMatrix(new THREE.Matrix4().makeTranslation(0, 100, -250));
 
     plane3.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI /2));
@@ -107,22 +84,13 @@
     plane4.applyMatrix(new THREE.Matrix4().makeTranslation(-250, 100, 0));
 
     ceiling.applyMatrix(new THREE.Matrix4().makeRotationX( -Math.PI/2));
-<<<<<<< HEAD
     ceiling.applyMatrix(new THREE.Matrix4().makeRotationZ(-Math.PI));
     ceiling.applyMatrix(new THREE.Matrix4().makeTranslation(0, 200, 0));
-
-     var mesh = new THREE.Mesh(plane, material);
-     var mesh2 = new THREE.Mesh(plane2, material);
-     var mesh3 = new THREE.Mesh(plane3, material2);
-=======
-    ceiling.applyMatrix(new THREE.Matrix4().makeRotationZ(-Math.PI)); 
-    ceiling.applyMatrix(new THREE.Matrix4().makeTranslation(0, 200, 0)); 
 
      var meshImage1 = new THREE.Mesh(imagePlane1, imgMaterial);
      var mesh = new THREE.Mesh(plane, material); 
      var mesh2 = new THREE.Mesh(plane2, material); 
      var mesh3 = new THREE.Mesh(plane3, material2); 
->>>>>>> f3022df53c633ff3747f42421bbddb8454b05cc5
      var mesh4 = new THREE.Mesh(plane4, material);
      var meshCeiling = new THREE.Mesh(ceiling, material); 
      var cubeMesh = new THREE.Mesh(cube, material2); 
@@ -132,6 +100,7 @@
     mesh3.material.side = THREE.DoubleSide; 
     mesh4.material.side = THREE.DoubleSide; 
 
+    scene.add(meshImage1);
     scene.add(mesh);
     scene.add(mesh2);
     scene.add(mesh3);
@@ -289,12 +258,6 @@
         canJump = true;
       }
 
-<<<<<<< HEAD
-      //Collisions
-      if (controls.getObject().position.x >= 220) {
-        velocity.x = 0;
-        controls.getObject().position.x = 220;
-=======
       //Collisions 
       if (controls.getObject().position.x >= 240) {
         velocity.x = 0; 
@@ -302,7 +265,6 @@
       } else if (controls.getObject().position.x <= -240) {
         velocity.x = 0; 
         controls.getObject().position.x = -240; 
->>>>>>> f3022df53c633ff3747f42421bbddb8454b05cc5
       }
     }
   }
